@@ -9,9 +9,7 @@ from keras import layers
 
 # 整数のシーケンスを二値行列に変換
 def vectorize_sequences(sequences, dimension=10000):
-  
   results = np.zeros((len(sequences), dimension))
-  
   for i, sequence in enumerate(sequences):
     results[i, sequence] = 1.
   return results
@@ -39,21 +37,16 @@ y_val = y_train[:10000]
 partial_y_train = y_train[10000:]
 
 # モデルの訓練
-model.compile(optimizer='rmsprop',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
-
 history = model.fit(partial_x_train,
                     partial_y_train,
                     epochs=20,
                     batch_size=512,
                     validation_data=(x_val, y_val))
 
-history_dict = history.history
-loss_values = history_dict['loss']
-val_loss_values = history_dict['val_loss']
-accuracy = history_dict['accuracy']
-val_accuracy = history_dict['val_accuracy']
+loss_values = history.history['loss']
+val_loss_values = history.history['val_loss']
+accuracy = history.history['accuracy']
+val_accuracy = history.history['val_accuracy']
 
 epochs = range(1, len(loss_values) + 1)
 
